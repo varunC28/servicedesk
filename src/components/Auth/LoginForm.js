@@ -1,7 +1,9 @@
+// LoginForm.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from './firebase';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { auth, firestore } from './firebase'; // Adjust path as necessary
 
 const LoginForm = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -14,16 +16,23 @@ const LoginForm = ({ onLogin }) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      const userData = { email: user.email, uid: user.uid, isAdmin: true };
-      console.log(userData)
-      onLogin(userData);
 
-      if(userData.isAdmin == false) {
-        navigate('/admin');
+      // Fetch user role from Firestore
+      const userDoc = await getDoc(doc(firestore, "users", user.uid)); // Correctly reference firestore here
+      if (userDoc.exists()) {
+        const userData = { email: user.email, uid: user.uid, ...userDoc.data() };
+        console.log(userData);
+        onLogin(userData);
+
+        if (userData.isAdmin) {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
       } else {
-        navigate('/dashboard');
+        console.error("No such document!");
       }
-      
+
     } catch (error) {
       console.error('Error logging in:', error);
       alert("Failed to log in, please try again");
