@@ -5,6 +5,7 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import { auth, firestore } from './firebase'; // Adjust path as necessary
 
+
 const RegisterForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

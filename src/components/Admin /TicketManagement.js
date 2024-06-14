@@ -2,7 +2,6 @@ import React from "react";
 
 const TicketManagement = ({ tickets, onAssign, onUpdateStatus }) => (
   <div>
-    <h2>Ticket Management</h2>
 
     {tickets.map((ticket) => (
       <div key={ticket._id}>

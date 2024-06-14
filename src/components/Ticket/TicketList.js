@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/TicketList.css'
 
 const TicketList = ({ tickets }) => (
   <div>

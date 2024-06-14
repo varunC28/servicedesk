@@ -1,6 +1,7 @@
 import React from 'react';
 import TicketForm from '../components/Ticket/TicketForm';
 import TicketList from '../components/Ticket/TicketList';
+import '../components/styles/Dashboard.css'
 
 const Dashboard = ({ tickets, onSubmitTicket, userData }) => {
 
